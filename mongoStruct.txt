@@ -1,0 +1,8 @@
+restaurant {
+    featured: Boolean
+    rating: 0 to 5 float
+    name: string
+    address: string
+    food: reference table
+    introPicture: path
+}
