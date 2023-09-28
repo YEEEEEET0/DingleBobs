@@ -1,26 +1,7 @@
-html {
-    font-family: sans-serif;
-}
-
-*, ::after, ::before {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    background-color: #121212; /* #121212 */
-}
-
-::-webkit-scrollbar {
-    display: none;
-}
-
-
 .food-image {
     z-index: -1;
-    height: inherit;
+    height: 50vh;
     width: inherit;
-    position: absolute;
     display: inline-block;
 }
 
@@ -37,9 +18,11 @@ body {
 }
 
 .food-image img {
-    filter: blur(2px);
+    filter: blur(4px);
     width: 100%;
     height: inherit;
     background-repeat: no-repeat;
     display: block;
+
+    object-fit: cover;
 }
