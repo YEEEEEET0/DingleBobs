@@ -2,48 +2,37 @@ import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import ExampleCarouselImage from '../../assets/images/borgerMIAU.jpg';
 
-function UncontrolledExample() {
-  return (
-    <div className='food-container-slides'>
-    <Carousel>
-      <Carousel.Item>
-        <div className='food-image'>
-        <img
-          src={ExampleCarouselImage}
-        />
-        </div>
-        <Carousel.Caption>
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item>
-      <div className='food-image'>
-        <img
-          src={ExampleCarouselImage}
-        />
-        </div>
-        <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item>
-      <div className='food-image'>
-        <img
-          src={ExampleCarouselImage}
-        />
-        </div>
-        <Carousel.Caption>
-          <h3>Third slide label</h3>
-          <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-          </p>
-        </Carousel.Caption>
-      </Carousel.Item>
-    </Carousel>
+const carouselData = [
+  { id: 1, imageSrc: ExampleCarouselImage, caption: 'Caption 1' },
+  { id: 2, imageSrc: ExampleCarouselImage, caption: 'Caption 2' },
+  { id: 3, imageSrc: ExampleCarouselImage, caption: 'Caption 3' },
+];
+
+// View
+const CarouselItem = ({ imageSrc, caption }) => (
+  <Carousel.Item>
+    <div className='food-image'>
+      <img src={imageSrc} alt='Food' />
     </div>
-  );
+    <Carousel.Caption>
+      {caption && <p>{caption}</p>}
+    </Carousel.Caption>
+  </Carousel.Item>
+);
+
+const CarouselComponent = ({ items }) => (
+  <div className='food-container-slides'>
+    <Carousel>
+      {items.map(item => (
+        <CarouselItem key={item.id} {...item} />
+      ))}
+    </Carousel>
+  </div>
+);
+
+// Controller
+function UncontrolledExample() {
+  return <CarouselComponent items={carouselData} />;
 }
 
 export default UncontrolledExample;
