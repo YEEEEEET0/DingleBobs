@@ -19,15 +19,13 @@ const CarouselItem = ({ imageSrc, caption }) => (
     </Carousel.Caption>
   </Carousel.Item>
 );
-
+let activeidx = 0;
 const CarouselComponent = ({ items }) => (
-  <div className='food-container-slides'>
-    <Carousel>
+    <Carousel activeIndex={activeidx}>
       {items.map(item => (
         <CarouselItem key={item.id} {...item} />
       ))}
     </Carousel>
-  </div>
 );
 
 // Controller
