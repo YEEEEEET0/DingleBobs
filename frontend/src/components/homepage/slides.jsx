@@ -3,14 +3,14 @@ import Carousel from 'react-bootstrap/Carousel';
 import ExampleCarouselImage from '../../assets/images/borgerMIAU.jpg';
 
 const carouselData = [
-  { id: 1, imageSrc: ExampleCarouselImage, caption: 'Caption 1' },
-  { id: 2, imageSrc: ExampleCarouselImage, caption: 'Caption 2' },
-  { id: 3, imageSrc: ExampleCarouselImage, caption: 'Caption 3' },
+  { id: 1, imageSrc: ExampleCarouselImage, caption: 'caption here' },
+  { id: 2, imageSrc: ExampleCarouselImage, caption: 'caption here' },
+  { id: 3, imageSrc: ExampleCarouselImage, caption: 'caption here' },
 ];
 
 // View
 const CarouselItem = ({ imageSrc, caption }) => (
-  <Carousel.Item>
+  <Carousel.Item className='active'>
     <div className='food-image'>
       <img src={imageSrc} alt='Food' />
     </div>
@@ -31,8 +31,6 @@ const CarouselComponent = ({ items }) => (
 );
 
 // Controller
-function UncontrolledExample() {
-  return <CarouselComponent items={carouselData} />;
-}
+const UncontrolledExample = () => <CarouselComponent items={carouselData} />;
 
 export default UncontrolledExample;
