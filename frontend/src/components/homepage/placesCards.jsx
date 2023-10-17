@@ -1,18 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import ExampleCarouselImage from '../../assets/images/borgerMIAU.jpg';
 import { Container, Row, Card, Col } from 'react-bootstrap';
+import RestaurantController from '../../controllers/Restaurant';
 
-// RestaurantModel
-class RestaurantModel {
-  constructor(name, image, rating) {
-    this.name = name;
-    this.image = image;
-    this.rating = rating;
-  }
-}
-
-// RestaurantCard
 const RestaurantCard = ({ restaurant }) => {
   const { name, image, rating } = restaurant;
 
@@ -41,21 +31,20 @@ RestaurantCard.propTypes = {
 
 // App
 const PlacesCards = () => {
-  const restaurantData = [
-    {
-      name: 'Burger king',
-      image: ExampleCarouselImage,
-      rating: 4.5,
-    },
-    {
-      name: 'Mcdonalds',
-      image: ExampleCarouselImage,
-      rating: 3.8,
-    },
-    // Add more restaurant objects as needed
-  ];
+  const [restaurants, setRestaurants] = useState([]);
 
-  const restaurants = restaurantData.map((data, index) => new RestaurantModel(data.name, data.image, data.rating));
+  useEffect(() => {
+    const restaurantController = new RestaurantController(connection);
+
+    async function fetchRestaurants() {
+      await restaurantController.init();
+      const allRestaurants = await restaurantController.getAllRestaurants();
+      setRestaurants(allRestaurants);
+      await restaurantController.close();
+    }
+
+    fetchRestaurants();
+  }, []);
 
   return (
     <Container>
