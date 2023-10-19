@@ -5,3 +5,28 @@
   background-color: transparent;
 }
 
+.dashbody {
+  min-height: 100vh;
+  background-color: #121212;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  height: 100vh;
+}
+
+.nav-blob {
+  width: 50px;
+  height: 50px;
+  background-color: #151515;
+  border: solid 2px #343a40;
+  border-radius: 50%;
+  position: absolute;
+  left: 2%;
+  top: 50%;
+  transform: translateY(-50%);
+}

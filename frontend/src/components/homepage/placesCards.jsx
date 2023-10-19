@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Container, Row, Card, Col } from 'react-bootstrap';
-import RestaurantController from '../../controllers/Restaurant';
+import axios from 'axios';
 
 const RestaurantCard = ({ restaurant }) => {
-  const { name, image, rating } = restaurant;
+  const { name, imageurl, rating } = restaurant;
 
   return (
     <Col sm={4} className="mb-4">
       <Card>
-        <Card.Img variant="top" src={image} alt={name} />
+        <Card.Img variant="top" src={imageurl} alt={name} />
         <Card.Body>
           <Card.Title>{name}</Card.Title>
           <Card.Text>
@@ -24,7 +24,7 @@ const RestaurantCard = ({ restaurant }) => {
 RestaurantCard.propTypes = {
   restaurant: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
+    imageurl: PropTypes.string.isRequired,
     rating: PropTypes.number.isRequired,
   }).isRequired,
 };
@@ -34,17 +34,19 @@ const PlacesCards = () => {
   const [restaurants, setRestaurants] = useState([]);
 
   useEffect(() => {
-    const restaurantController = new RestaurantController(connection);
-
     async function fetchRestaurants() {
-      await restaurantController.init();
-      const allRestaurants = await restaurantController.getAllRestaurants();
-      setRestaurants(allRestaurants);
-      await restaurantController.close();
+      try {
+        const response = await fetch('/food/restaurants');
+        const data = await response.json();
+        setRestaurants(data);
+      } catch (error) {
+        console.error('Error fetching restaurants:', error);
+      }
     }
 
     fetchRestaurants();
   }, []);
+
 
   return (
     <Container>

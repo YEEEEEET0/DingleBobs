@@ -1,8 +1,10 @@
+const { MongoClient } = require('mongodb/lib');
 const RestaurantModel = require('../models/Restaurant');
 
 class RestaurantController {
   constructor(conIrl) {
-    this.restaurantModel = new RestaurantModel(conIrl, "foodorder");
+    const mongo = new MongoClient(conIrl);
+    this.restaurantModel = new RestaurantModel(mongo, "foodorder");
   }
 
   async init() {
