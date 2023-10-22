@@ -60,6 +60,24 @@ router.get('/restaurants/name/:restaurantName', async (req, res) => {
   }
 });
 
+router.get('/restaurant/:restaurantName/dishes', async (req, res) => {
+  try {
+    const { restaurantName } = req.params;
+    const restaurant = await restaurantController.getRestaurantByName(restaurantName);
+
+    if (!restaurant) {
+      return res.status(404).json({ message: 'Restaurant not found' });
+    }
+
+    const { name, dishes } = restaurant;
+
+    return res.status(200).json( dishes );
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 // Close the connection when the application is terminated
 process.on('SIGINT', async () => {
   await restaurantController.close();
