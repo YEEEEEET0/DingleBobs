@@ -1,13 +1,14 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Slides from './components/homepage/slides';
 import Navbar from './components/homepage/navbar';
 import PlacesCards from './components/homepage/placesCards';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBlob from './components/homepage/navBlob';
+import RestaurantDetail from './components/homepage/restaurantDetail';
 
 const Home = () => {
   return (
-    <div data>
+    <div>
       <Navbar />
       <Slides />
       <div className='placecards-container'>
@@ -19,25 +20,21 @@ const Home = () => {
 
 const Dashboard = () => {
   return (
-    <div data className='dashbody'>
+    <div className='dashbody'>
       <NavBlob />
-
     </div>
   );
 }
 
-
-
 const App = () => {
   return (
-    <BrowserRouter>
-    <Routes>
-      <Route path="/">
-        <Route index element={<Home />} />
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="dashboard" element={<Dashboard />} />
-      </Route>
-    </Routes>
-  </BrowserRouter>
+        <Route path="restaurants/:name" element={<RestaurantDetail />} />
+      </Routes>
+    </Router>
   );
 }
 

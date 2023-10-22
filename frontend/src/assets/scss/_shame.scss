@@ -79,9 +79,10 @@ body {
 }
 
 .custom-card {
-  background: #343a40;
+  background-color: #343a40;
   width: 18rem;
   transition: transform 0.3s;
+  border: none !important;
 }
 
 .custom-card:hover {
@@ -102,4 +103,18 @@ body {
 
 .placecards-container {
   padding-top: 1%;
+}
+
+.card-body{
+  background-color: #151515;
+  border: none;
+  .card-title, .card-text{
+    color: white;}
+
+}
+
+.card-text {
+  display: flex;
+  align-items: center;
+  gap: 3%;
 }

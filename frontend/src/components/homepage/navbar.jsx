@@ -11,12 +11,11 @@ const CustomNavbar = () => {
   return (
     <Navbar expand="lg" data-bs-theme="dark" fixed='top' >
       <Container >
-        <Navbar.Brand >Shop name</Navbar.Brand>
+        <Navbar.Brand >DingleBobs inc</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto"> 
-            <Nav.Link href="#home">Menu</Nav.Link>
-            <Nav.Link href="#link">About</Nav.Link>
+            <Nav.Link href="#link">Dashboard</Nav.Link>
           </Nav>
             <LoginModal />
         </Navbar.Collapse>
