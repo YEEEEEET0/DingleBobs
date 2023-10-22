@@ -10,7 +10,7 @@ const Home = () => {
     <div data>
       <Navbar />
       <Slides />
-      <div>
+      <div className='placecards-container'>
         <PlacesCards />
       </div>
     </div>

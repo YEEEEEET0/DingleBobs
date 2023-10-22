@@ -10,6 +10,8 @@
   background-color: #121212;
 }
 
+
+
 html,
 body {
   min-height: 100%;
@@ -29,4 +31,75 @@ body {
   left: 2%;
   top: 50%;
   transform: translateY(-50%);
+  transition: all 200ms;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.nav-blob svg {
+  transition: all 200ms;
+}
+
+.nav-blob:hover {
+  height: 150px;
+  width: 50px;
+  border-radius: 5%;
+}
+
+.blob-item {
+  height: 30px;
+  width: 30px;
+  opacity: 0;
+  transition: all 200ms;
+  margin-top: 50px;
+}
+
+.nav-blob:hover .blob-item {
+  opacity: 1;
+  margin-top: 0px;
+}
+
+.nav-blob:hover #defaultnav {
+  margin-bottom: 80px;
+  opacity: 0;
+  position: absolute;
+}
+
+#defaultnav {
+  position: absolute;
+  left: 2%;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.custom-card {
+  background: #343a40;
+  width: 18rem;
+  transition: transform 0.3s;
+}
+
+.custom-card:hover {
+  transform: scale(1.01);
+}
+
+.card-link {
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.card-image {
+  height: 200px;
+  object-fit: cover;
+}
+
+.placecards-container {
+  padding-top: 1%;
 }

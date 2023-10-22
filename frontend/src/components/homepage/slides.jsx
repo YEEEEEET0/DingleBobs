@@ -3,32 +3,26 @@ import Carousel from 'react-bootstrap/Carousel';
 import ExampleCarouselImage from '../../assets/images/borgerMIAU.jpg';
 
 const carouselData = [
-  { id: 1, imageSrc: ExampleCarouselImage, caption: 'caption here' },
-  { id: 2, imageSrc: ExampleCarouselImage, caption: 'caption here' },
-  { id: 3, imageSrc: ExampleCarouselImage, caption: 'caption here' },
+  { id: 1, imageSrc: ExampleCarouselImage, caption: 'caption here 1' },
+  { id: 2, imageSrc: ExampleCarouselImage, caption: 'caption here 2' },
+  { id: 3, imageSrc: ExampleCarouselImage, caption: 'caption here 3' },
 ];
 
-// View
-const CarouselItem = ({ imageSrc, caption }) => (
-  <Carousel.Item className='active'>
-    <div className='food-image'>
-      <img src={imageSrc} alt='Food' />
-    </div>
-    <Carousel.Caption>
-      {caption && <p>{caption}</p>}
-    </Carousel.Caption>
-  </Carousel.Item>
-);
-let activeidx = 0;
 const CarouselComponent = ({ items }) => (
-    <Carousel activeIndex={activeidx}>
-      {items.map(item => (
-        <CarouselItem key={item.id} {...item} />
-      ))}
-    </Carousel>
+  <Carousel interval={3000}>
+    {items.map((item, index) => (
+      <Carousel.Item key={item.id}>
+        <div className='food-image'>
+          <img src={item.imageSrc} alt='Food' />
+        </div>
+        <Carousel.Caption>
+          <h3>{item.caption}</h3>
+        </Carousel.Caption>
+      </Carousel.Item>
+    ))}
+  </Carousel>
 );
 
-// Controller
 const UncontrolledExample = () => <CarouselComponent items={carouselData} />;
 
 export default UncontrolledExample;
