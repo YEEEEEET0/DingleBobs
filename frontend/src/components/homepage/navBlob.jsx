@@ -15,7 +15,7 @@ const NavBlob = () => {
 
 
       <a href="#" className="blob-item">
-        <svg height="800px" width="800px" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns: xlink="http://www.w3.org/1999/xlink"
+        <svg version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns: xlink="http://www.w3.org/1999/xlink"
           viewBox="0 0 512 512"  xml: space="preserve">
           <g>
             <path class="st0" d="M499.139,318.571l-37.178-5.407c-2.329-0.178-4.336-1.642-5.228-3.8l-12.054-29.086

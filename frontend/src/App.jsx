@@ -5,6 +5,7 @@ import Navbar from './components/homepage/navbar';
 import PlacesCards from './components/homepage/placesCards';
 import NavBlob from './components/homepage/navBlob';
 import RestaurantDetail from './components/homepage/restaurantDetail';
+import Widget from './components/homepage/widget';
 
 const Home = () => {
   return (
@@ -22,6 +23,7 @@ const Dashboard = () => {
   return (
     <div className='dashbody'>
       <NavBlob />
+      <Widget></Widget>
     </div>
   );
 }
