@@ -65,6 +65,15 @@ class RestaurantModel {
       console.error('Error fetching restaurants:', error);
     }
   }
+
+  async getRestaurantByName(name) {
+    try {
+      const restaurant = await this.db.collection('restaurants').findOne({ name: name });
+      return restaurant;
+    } catch (error) {
+      console.error('Error fetching restaurant by name:', error);
+    }
+  }
 }
 
 module.exports = RestaurantModel;
