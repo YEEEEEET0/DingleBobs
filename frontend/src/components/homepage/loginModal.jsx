@@ -26,7 +26,7 @@ function LoginModal() {
   return (
     <>
       <Button variant="outline-light" onClick={handleShow}>
-        Launch demo modal
+        Login
       </Button>
 
       {/* Show either LoginModal or RegisterModal based on state */}

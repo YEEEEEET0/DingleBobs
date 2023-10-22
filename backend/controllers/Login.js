@@ -8,9 +8,72 @@ class AccountController {
         this.ENCRYPTIONKEY = ENCRYPTIONKEY;
     }
 
+    async saneToken(token, reqip) {
+        if (!token || !reqip) {
+            return false;
+        }
+
+        const loginData = this.mongoClient.db("accounts").collection('login');
+        const sessionData = await this.mongoClient.db("accounts").collection('sessions').findOne({ token });
+
+        if (!sessionData)
+            return false;
+
+
+    
+        const isValidToken = await this.isTokenValid(sessionData.token, sessionData.initializationVector, sessionData.authTag, loginData, reqip);
+
+        return isValidToken;
+    }
+
+    async isTokenValid(token, initializationVector, authTag, loginData, reqip) {
+        const decipher = createDecipheriv('aes-256-gcm', ENCRYPTIONKEY, initializationVector);
+        decipher.setAuthTag(Buffer.from(authTag, 'hex'));
+        let decrypted = decipher.update(token, 'hex', 'utf-8');
+        decrypted += decipher.final('utf-8');
+
+        const [username, hashedpass, ip] = decrypted.split('>');
+        const userAuth = await loginData.findOne({ username });
+
+        if (!userAuth || hashedpass !== userAuth.hashedPassword)
+            return false;
+
+
+        if (ip !== reqip)
+            return false;
+
+
+        return true;
+    }
+
+    async getTokenData(token) {
+        if (!token) {
+            return null;
+        }
+
+        const sessionData = await this.mongoClient.db("accounts").collection('sessions').findOne({ token });
+
+        if (!sessionData) {
+            throw new Error("Internal server error, can't get collection");
+        }
+
+        const decipher = createDecipheriv('aes-256-gcm', ENCRYPTIONKEY, sessionData.initializationVector);
+        decipher.setAuthTag(Buffer.from(sessionData.authTag, 'hex'));
+        let decrypted = decipher.update(sessionData.token, 'hex', 'utf-8');
+        decrypted += decipher.final('utf-8');
+
+        const [username, hashedpass, ip] = decrypted.split('>');
+
+        return {
+            username,
+            hashedpass,
+            ip
+        };
+    }
+
     async accountExists(newuser) {
         try {
-            const accountLogins = mongoClient.db("accounts").collection('login');
+            const accountLogins = this.mongoClient.db("accounts").collection('login');
 
             const projection = { username: 1, email: 1, _id: 0 };
             const query = { $or: [{ username: newuser }, { email: newuser }] };
@@ -30,13 +93,13 @@ class AccountController {
     async createAccount(username, password, ip) {
         try {
             const hashedPassword = await hashSync(password, 10);
-            const accountLogins = await mongoClient.db("accounts").collection('login');
+            const accountLogins = await this.mongoClient.db("accounts").collection('login');
 
             const existingUser = await accountLogins.findOne({ username });
-            if (existingUser) return res.status(409).json({ msg: "Account with username already exists" });
+            if (existingUser) return { msg: "Account with username already exists" };
 
             const result = await accountLogins.insertOne({ username, hashedPassword, ip: `${ip}` });
-            if (result.insertedCount === 1) return { msg: "Account has been created" }
+            if (result.insertedId) return { msg: "Account has been created" }
 
             throw new Error('Internal server error: could not create account');
         } catch (err) {
@@ -46,8 +109,8 @@ class AccountController {
     }
 
     async login(useroremail, password) {
-        const accountData = await mongoClient.db("accounts").collection('login').findOne({ username: useroremail });
-        const sessionCol = mongoClient.db("accounts").collection('sessions');
+        const accountData = await this.mongoClient.db("accounts").collection('login').findOne({ username: useroremail });
+        const sessionCol = this.mongoClient.db("accounts").collection('sessions');
 
         if (!accountData)
             return { msg: "User not found" };
@@ -78,7 +141,7 @@ class AccountController {
 
     async sanityCheck(token, reqip) {
         try {
-            const tokenIsValid = await saneToken(token, reqip);
+            const tokenIsValid = await this.saneToken(token, reqip);
             return tokenIsValid ? { msg: "authentication token sanity check succeeded" } : { msg: "authentication token sanity check failed" };
         } catch (err) {
             return { error: err.message };

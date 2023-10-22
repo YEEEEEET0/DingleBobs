@@ -11,28 +11,28 @@ const ENCRYPTIONKEY = "C*F-JaNdRgUkXp2s58x/A?D(G+KbPeSh";
 
 const accountController = new AccountController(mongoClient, ENCRYPTIONKEY);
 
-router.post('/availability', (req, res) => {
+router.post('/availability', async (req, res) => {
     const { newuser } = req.body;
-    const result = accountController.accountExists(newuser);
+    const result = await accountController.accountExists(newuser);
     res.status(result.error ? 409 : 200).json(result);
 });
 
-router.post('/create', (req, res) => {
+router.post('/create', async(req, res) => {
     const { username, password } = req.body;
-    const result = accountController.createAccount(username, password, req.ip);
+    const result = await accountController.createAccount(username, password, req.ip);
     res.status(result.error ? 500 : result.msg ? 200 : 409).json(result);
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
     const { useroremail, password } = req.body;
-    const result = accountController.login(useroremail, password);
+    const result = await accountController.login(useroremail, password);
     res.status(result.error ? 500 : result.msg ? 200 : 404).json(result);
 });
 
-router.post('/sanitycheck', (req, res) => {
+router.post('/sanitycheck', async (req, res) => {
     const { token } = req.body;
     const reqip = req.ip;
-    const result = accountController.sanityCheck(token, reqip);
+    const result = await accountController.sanityCheck(token, reqip);
     res.status(result.error ? 500 : result.msg ? 200 : 404).json(result);
 });
 
