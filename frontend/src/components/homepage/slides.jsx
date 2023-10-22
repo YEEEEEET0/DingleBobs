@@ -9,7 +9,7 @@ const carouselData = [
 ];
 
 const CarouselComponent = ({ items }) => (
-  <Carousel interval={3000}>
+  <Carousel interval={7000}>
     {items.map((item, index) => (
       <Carousel.Item key={item.id}>
         <div className='food-image'>
