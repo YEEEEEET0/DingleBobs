@@ -133,10 +133,12 @@ body {
   height: 25vh;
   width: 100vw;
   display: inline-block;
-  position: absolute;
   top: 0;
 
   overflow: hidden;
+
+  border-bottom-left-radius: 1.5rem;
+  border-bottom-right-radius: 1.5rem;
 
   h2{
     z-index: 1;
@@ -151,7 +153,7 @@ body {
     z-index: 1;
     position: absolute;
 
-    bottom: 0;
+    top: 20vh;
 
     color: white;
 
@@ -188,4 +190,38 @@ body {
   top: 0;
   
   object-fit: cover;
+}
+
+.restaurant-about {
+  background-color: #151515;
+  color: white;
+  width: 100vw;
+  height: fit-content;
+  padding: 1vw;
+
+
+  border-radius: 1.5rem;
+
+  .details{
+    background-color: #212121;
+
+    padding: 0.75vw;
+
+    border-radius: 1.5rem;
+  }
+
+  .details + .details {
+    margin-top: 1.5vh;
+  }
+}
+
+.all-info{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.bottom-test{
+  background-color: red;
+  position: relative
 }
