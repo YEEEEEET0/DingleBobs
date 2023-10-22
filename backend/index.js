@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth');
 const foodRoutes = require('./routes/restaurant');
+const loginRoutes = require('./routes/login');
 const cors = require('cors');
 
 const app = express();
@@ -31,8 +32,9 @@ mongoose
   });
 
 // Routes
-app.use('/auth', authRoutes);
+app.use('/auth', loginRoutes);
 app.use('/food', foodRoutes);
+
 
 
 // Start the server
