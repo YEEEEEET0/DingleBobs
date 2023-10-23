@@ -54,11 +54,13 @@ const DishesCards = ({  }) => {
 
   return (
     <Container>
+      <div className='container-styling'>
       <Row>
         {dishes.map((dish, index) => (
           <DishCard key={index} dish={dish} />
         ))}
       </Row>
+      </div>
     </Container>
   );
 };

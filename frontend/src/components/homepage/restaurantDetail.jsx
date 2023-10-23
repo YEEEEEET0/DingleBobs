@@ -47,8 +47,10 @@ const RestaurantDetail = () => {
       
       <RestaurantAbout/>
 
+      <div className='dishes-styling'>
       <DishesCards restaurantName={restaurant.name} />
-      
+      </div>
+
     </div>
   );
 };
