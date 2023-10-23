@@ -20,7 +20,7 @@ const CustomNavbar = ({ hideTitle }) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-          {title ? <Nav.Link href="#link">Dashboard</Nav.Link> : null}
+          {title ? <Nav.Link href="/dashboard">Dashboard</Nav.Link> : null}
           </Nav>
           <LoginModal />
         </Navbar.Collapse>
