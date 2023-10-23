@@ -31,6 +31,10 @@ class RestaurantController {
     return await this.restaurantModel.getRestaurantByName(restaurantName);
   }
 
+  async getAllOrders() {
+    return await this.restaurantModel.getAllOrders();
+  }
+
   async close() {
     await this.restaurantModel.disconnect();
   }

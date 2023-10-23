@@ -1,5 +1,5 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import Slides from './components/homepage/slides';
 import Navbar from './components/homepage/navbar';
 import PlacesCards from './components/homepage/placesCards';
@@ -20,10 +20,50 @@ const Home = () => {
 }
 
 const Dashboard = () => {
+  const [orders, setOrders] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
+        const response = await fetch('http://localhost:3000/food/restaurants/orders', {
+          headers: {
+            "Authorization": token
+          }
+        });
+
+        if (response.status === 403) {
+          setError('No access');
+        } else {
+          const data = await response.json();
+          setOrders(data);
+        }
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+      }
+    };
+    fetchOrders();
+  }, []);
+
+
   return (
     <div className='dashbody'>
       <NavBlob />
-      <Widget></Widget>
+      <Widget id="orders-card">
+        <div>
+          {error ? (
+            <p>{error}</p>
+          ) : (
+            Object.keys(orders).map((restaurantName, index) => (
+              <div className='orders-list' key={index}>
+                <span>{restaurantName}</span>
+                <span>{orders[restaurantName].length}</span>
+              </div>
+            ))
+          )}
+        </div>
+      </Widget>
     </div>
   );
 }
