@@ -7,9 +7,14 @@ import axios from 'axios';
 
 function LoginModal() {
   const [show, setShow] = useState(false);
-  const [showRegister, setShowRegister] = useState(false); // Track whether to show RegisterModal
+  const [showRegister, setShowRegister] = useState(false);
+  const [error, setError] = useState(''); // State variable for error message
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setError(''); // Clear the error message when closing the modal
+  };
+
   const handleShow = () => setShow(true);
 
   // Function to handle switching to RegisterModal
@@ -60,14 +65,14 @@ function LoginModal() {
   const handleLogin = async () => {
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
-  
+
     if (!email || !password) {
-      console.log('Please provide both email and password.');
+      setError('Please provide both email and password.'); // Set error message
       return;
     }
-  
+
     const result = await login(email, password);
-  
+
     if (result.authToken) {
       console.log('Login successful');
       const date = new Date();
@@ -77,8 +82,7 @@ function LoginModal() {
       document.cookie = cookie;
       handleClose();
     } else {
-      console.log('Login failed');
-      // Handle the login failure, e.g., show an error message.
+      setError('Login failed'); // Set error message for login failure
     }
   };
 
@@ -111,6 +115,7 @@ function LoginModal() {
                 <Form.Label>Password</Form.Label>
                 <Form.Control id='loginPassword' type="Password" placeholder="Enter password" />
               </Form.Group>
+              {error && <p className="text-danger">{error}</p>} {/* Display error message */}
             </Form>
           </Modal.Body>
           <Modal.Footer className='bg-body-tertiary border-dark'>
@@ -118,7 +123,7 @@ function LoginModal() {
               Register
             </Button>
             <Button variant="outline-light" onClick={handleLogin}>
-              login
+              Login
             </Button>
           </Modal.Footer>
         </Modal>

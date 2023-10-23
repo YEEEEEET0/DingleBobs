@@ -4,6 +4,7 @@
 
 body {
   font-family: 'Cabin', sans-serif !important;
+  overflow-x: hidden;
 }
 
 
@@ -126,9 +127,11 @@ body {
 }
 
 .card-text {
+  
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: 3%;
+  justify-content: space-between;
 }
 
 .thumbnail {
@@ -243,5 +246,51 @@ body {
 }
 
 .dishes-styling{
-  gap: 3vw;
+  margin-top: 2vh;
+}
+
+::-webkit-scrollbar{
+  display: none;
+}
+
+.row{
+  justify-content: space-evenly;
+  gap: 3vh;
+  width: 100vw;
+}
+
+.container {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  width: 100%;
+}
+
+.dish-container{
+  max-width: 18.5rem !important;
+}
+
+p.cart{
+  margin: 0;
+}
+
+.confirmation-message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #17d937; 
+  color: white;
+  padding: 10px;
+  text-align: center;
+  z-index: 999; 
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.places-stars{
+  display: flex;
+  align-items: center;
+  gap: 0.5vw;
 }

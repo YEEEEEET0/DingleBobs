@@ -1,10 +1,11 @@
 import React from 'react';
+import Navbar from './navbar';
 
 
 const RestaurantAbout = () => {
   return (
-
     <div className='restaurant-about'>
+            <Navbar hideTitle={true} />
        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mollitia, necessitatibus recusandae labore quis exercitationem nisi culpa non saepe magnam. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quaerat, neque et sed, expedita quidem nemo quae minus atque temporibus quis, molestiae inventore? Ipsa impedit laboriosam totam, ipsam voluptatibus ex. Nobis? Lorem ipsum dolor, sit amet consectetur adipisicing elit. Soluta molestias quasi temporibus alias aspernatur quas, mollitia vero minus distinctio ea quis maiores ipsum voluptatem blanditiis iusto architecto fugiat corporis explicabo! Aliquid dolore nisi quod, alias quos vitae animi beatae asperiores sint? </p>
 
        <div className='details'>

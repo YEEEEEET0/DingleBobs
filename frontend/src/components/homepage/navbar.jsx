@@ -1,27 +1,32 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button'
+import LoginModal from './loginModal'; // Make sure the path to LoginModal is correct
 
-import LoginModal from './loginModal';
+const CustomNavbar = ({ hideTitle }) => {
+  const [title, setTitle] = useState(true);
 
-const CustomNavbar = () => {
+  useEffect(() => {
+    if (hideTitle) {
+      setTitle(false);
+    }
+  }, [hideTitle]);
+
   return (
-    <Navbar expand="lg" data-bs-theme="dark" fixed='top' >
-      <Container >
-        <Navbar.Brand >DingleBobs inc</Navbar.Brand>
+    <Navbar expand="lg" data-bs-theme="dark" fixed='top'>
+      <Container>
+        <Navbar.Brand>{title ? "DingleBobs inc" : ""}</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto"> 
-            <Nav.Link href="#link">Dashboard</Nav.Link>
+          <Nav className="me-auto">
+          {title ? <Nav.Link href="#link">Dashboard</Nav.Link> : null}
           </Nav>
-            <LoginModal />
+          <LoginModal />
         </Navbar.Collapse>
       </Container>
     </Navbar>
   );
-}
+};
 
 export default CustomNavbar;
