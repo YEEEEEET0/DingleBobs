@@ -1,32 +1,32 @@
 const { hashSync, compareSync, compare } = require('bcrypt');
 const ENCRYPTIONKEY = "C*F-JaNdRgUkXp2s58x/A?D(G+KbPeSh";
 const { createCipheriv, randomBytes, createDecipheriv } = require('crypto');
+let globalMongo = null;
 
 class AccountController {
     constructor(mongoClient, ENCRYPTIONKEY) {
         this.mongoClient = mongoClient;
         this.ENCRYPTIONKEY = ENCRYPTIONKEY;
+        globalMongo = mongoClient;
     }
 
-    async saneToken(token, reqip) {
-        if (!token || !reqip) {
+    static async saneToken(token, reqip) {
+        if (!token || !reqip) 
             return false;
-        }
+        
 
-        const loginData = this.mongoClient.db("accounts").collection('login');
-        const sessionData = await this.mongoClient.db("accounts").collection('sessions').findOne({ token });
+        const loginData = globalMongo.db("accounts").collection('login');
+        const sessionData = await globalMongo.db("accounts").collection('sessions').findOne({ token });
 
         if (!sessionData)
             return false;
-
-
     
-        const isValidToken = await this.isTokenValid(sessionData.token, sessionData.initializationVector, sessionData.authTag, loginData, reqip);
+        const isValidToken = await AccountController.isTokenValid(sessionData.token, sessionData.initializationVector, sessionData.authTag, loginData, reqip);
 
         return isValidToken;
     }
 
-    async isTokenValid(token, initializationVector, authTag, loginData, reqip) {
+   static async isTokenValid(token, initializationVector, authTag, loginData, reqip) {
         const decipher = createDecipheriv('aes-256-gcm', ENCRYPTIONKEY, initializationVector);
         decipher.setAuthTag(Buffer.from(authTag, 'hex'));
         let decrypted = decipher.update(token, 'hex', 'utf-8');
@@ -39,8 +39,8 @@ class AccountController {
             return false;
 
 
-        if (ip !== reqip)
-            return false;
+        //if (ip !== reqip)
+          //  return false;
 
 
         return true;
@@ -53,9 +53,9 @@ class AccountController {
 
         const sessionData = await this.mongoClient.db("accounts").collection('sessions').findOne({ token });
 
-        if (!sessionData) {
+        if (!sessionData) 
             throw new Error("Internal server error, can't get collection");
-        }
+        
 
         const decipher = createDecipheriv('aes-256-gcm', ENCRYPTIONKEY, sessionData.initializationVector);
         decipher.setAuthTag(Buffer.from(sessionData.authTag, 'hex'));
@@ -141,11 +141,15 @@ class AccountController {
 
     async sanityCheck(token, reqip) {
         try {
-            const tokenIsValid = await this.saneToken(token, reqip);
+            const tokenIsValid = await AccountController.saneToken(token, reqip);
             return tokenIsValid ? { msg: "authentication token sanity check succeeded" } : { msg: "authentication token sanity check failed" };
         } catch (err) {
             return { error: err.message };
         }
+    }
+
+    async close() {
+        this.mongoClient.close();
     }
 }
 

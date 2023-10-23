@@ -67,15 +67,14 @@ function LoginModal() {
     }
   
     const result = await login(email, password);
-
-    const date = new Date();
-    date.setTime(date.getTime() + (5 * 24 * 60 * 60 * 1000)); // Expires in 5 days
-    const expires = "expires=" + date.toUTCString();
-    const cookie = `token=${result.authToken};` + expires + ";path=/";
-    document.cookie = cookie;
   
-    if (result.msg) {
+    if (result.authToken) {
       console.log('Login successful');
+      const date = new Date();
+      date.setTime(date.getTime() + (5 * 24 * 60 * 60 * 1000)); // Expires in 5 days
+      const expires = "expires=" + date.toUTCString();
+      const cookie = `token=${result.authToken};` + expires + ";path=/";
+      document.cookie = cookie;
       handleClose();
     } else {
       console.log('Login failed');

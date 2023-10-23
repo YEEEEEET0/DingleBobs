@@ -74,6 +74,26 @@ class RestaurantModel {
       console.error('Error fetching restaurant by name:', error);
     }
   }
+
+  async getAllOrders() {
+    try {
+      const restaurants = await this.db.collection('restaurants').find().toArray();
+      let allOrders = [];
+
+      restaurants.forEach(restaurant => {
+        if (restaurant.orders && restaurant.orders.length > 0) {
+          const ordersWithRestaurantInfo = restaurant.orders.map(order => {
+            return { ...order, restaurantName: restaurant.name, restaurantId: restaurant._id };
+          });
+          allOrders = allOrders.concat(ordersWithRestaurantInfo);
+        }
+      });
+
+      return allOrders;
+    } catch (error) {
+      console.error('Error fetching all orders:', error);
+    }
+  }
 }
 
 module.exports = RestaurantModel;
