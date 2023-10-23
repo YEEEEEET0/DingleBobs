@@ -2,6 +2,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import RestaurantAbout from './restaurantAbout'
+import DishesCards from './dishesCards';
 
 
 const RestaurantDetail = () => {
@@ -46,7 +47,7 @@ const RestaurantDetail = () => {
       
       <RestaurantAbout/>
 
-      <div className='bottom-test'>test</div>
+      <DishesCards restaurantName={restaurant.name} />
       
     </div>
   );
