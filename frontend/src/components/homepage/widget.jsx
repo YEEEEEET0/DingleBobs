@@ -7,7 +7,6 @@ let listening = [];
 
 
 const Widget = (props) => {
-    const dropdownRef = useRef(null);
     const dropdown = document.getElementById(`${props.id}-dropdown`);
     const posSave = (e, data) => {
         localStorage.setItem(`defaultPosition${props.id}`, JSON.stringify({ x: data.x, y: data.y }));
@@ -18,18 +17,17 @@ const Widget = (props) => {
      * @param {HTMLElement} ref 
      */
     const handleRef = (ref) => {
-        dropdownRef.current = ref;
-        if (dropdown && dropdownRef.current && !listening.includes(`${ref.children[0].textContent}-dropdown`)) {
+        if (dropdown && ref && !listening.includes(`${ref.children[0].textContent}-dropdown`)) {
             listening.push(`${ref.children[0].textContent}-dropdown`);
 
-            dropdownRef.current.addEventListener('click', (e) => {
+            ref.addEventListener('click', (e) => {
                 dropdown.children[0].children[0].children[0].textContent = ref.children[0].textContent;
                 dropdown.classList.toggle("card-dropdown-active");
             }, true);
         }
     };
 
-    const childrenWithProps = React.Children.map(props.children, child => {
+    const dropdownChildren = React.Children.map(props.children, child => {
         if (React.isValidElement(child) && child.props.className === 'orders-list')
             return React.cloneElement(child, { ref: handleRef });
 
@@ -48,7 +46,7 @@ const Widget = (props) => {
                     </div>
                 </div>
                 <Card.Body>
-                    {childrenWithProps}
+                    {dropdownChildren}
                 </Card.Body>
             </Card>
         </Draggable>
