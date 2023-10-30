@@ -37,7 +37,7 @@ const Widget = (props) => {
     return (
         <Draggable defaultPosition={localStorage.getItem(`defaultPosition${props.id}`) ? JSON.parse(localStorage.getItem(`defaultPosition${props.id}`)) : { x: 0, y: 0 }} onStop={posSave}>
             <Card style={{ width: '18rem', userSelect: "none" }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px', background: "#121212" }}>
                     <div>{props.titlename}</div>
                     <div style={{ cursor: 'pointer' }}>
                         <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="#000000" className="bi bi-three-dots-vertical">

@@ -283,3 +283,86 @@ body {
   background: red;
   border: 3px solid blue;
 }
+
+.dish-container{
+  max-width: fit-content !important;
+}
+
+.row{
+  display: flex;
+  justify-content: space-evenly;
+  gap: 2vh;
+
+}
+
+.react-draggable{
+  svg{
+    fill: white;
+  }
+
+  * {
+    color: white;
+
+  }
+
+}
+
+.nav-blob {
+    #defaultnav{
+    fill: white !important;
+  }
+}
+
+svg#Capa_1{
+  fill:#121212;
+}
+
+
+
+.card {
+//   border-bottom-color: rgba(0, 0, 0, 0.176) !important;
+// border-bottom-left-radius: 6px !important;
+// border-bottom-right-radius: 6px !important;
+// border-bottom-style: solid !important;
+// border-bottom-width: 0.761905px !important;
+// border-image-outset: 0 !important;
+// border-image-repeat: stretch !important;
+// border-image-slice: 100% !important;
+// border-image-source: none !important;
+// border-image-width: 1 !important;
+// border-left-color: rgba(0, 0, 0, 0.176) !important;
+// border-left-style: solid !important;
+// border-left-width: 0.761905px !important;
+// border-right-color: rgba(0, 0, 0, 0.176) !important;
+// border-right-style: solid !important;
+// border-right-width: 0.761905px !important;
+// border-top-color: rgba(0, 0, 0, 0.176) !important;
+// border-top-left-radius: 6px !important;
+// border-top-right-radius: 6px !important;
+// border-top-style: solid !important;
+// border-top-width: 0.761905px !important;
+
+border: 1px solid #1e1e1e !important;
+
+
+}
+
+.clickable{
+  cursor: pointer;
+}
+
+.confirmation-message {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 15px;
+  text-align: center;
+  font-size: 18px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  position: fixed;
+  top: 0;
+  
+
+  width: 100%;
+}

@@ -58,9 +58,10 @@ const DishesCards = () => {
 
   const addToCart = (dishName) => {
     setConfirmationMessage(`${dishName} added to cart`);
+
+    console.log(`${dishName} added to cart`);
     
-    // Clear the confirmation message after 5 seconds
-    setTimeout(clearConfirmationMessage, 5000);
+        setTimeout(clearConfirmationMessage, 5000);
   };
 
   useEffect(() => {

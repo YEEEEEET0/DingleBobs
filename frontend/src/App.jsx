@@ -57,7 +57,7 @@ const Dashboard = () => {
       <Widget titlename="Orders" id="orders-card">
         <div ref={order_dropdownRef} className='card-dropdown' id="orders-card-dropdown">
           <Card style={{ width: '18rem', userSelect: "none" }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px', backgroundColor: "#121212" }}>
               <div>
                 Specific Orders
               </div>
