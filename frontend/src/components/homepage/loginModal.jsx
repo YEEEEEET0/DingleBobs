@@ -1,14 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import RegisterModal from './RegisterModal'; // Make sure the import path is correct.
 import axios from 'axios';
+import { useRef } from 'react';
 
 function LoginModal() {
   const [show, setShow] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [error, setError] = useState(''); // State variable for error message
+  const ref = useRef();
+
+  useEffect(() => {
+    if (document.cookie) {
+      const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
+      if (token) ref.current.innerHTML = "<span style='color:white;'>Logged in</span>";
+    }
+  })
 
   const handleClose = () => {
     setShow(false);
@@ -81,13 +90,18 @@ function LoginModal() {
       const cookie = `token=${result.authToken};` + expires + ";path=/";
       document.cookie = cookie;
       handleClose();
+      /**
+      * @type {HTMLElement}
+      */
+      const ele = ref.current;
+      ele.innerHTML = "logged in";
     } else {
       setError('Login failed'); // Set error message for login failure
     }
   };
 
   return (
-    <>
+    <div ref={ref}>
       <Button variant="outline-light" onClick={handleShow}>
         Login
       </Button>
@@ -128,7 +142,7 @@ function LoginModal() {
           </Modal.Footer>
         </Modal>
       )}
-    </>
+    </div>
   );
 }
 
