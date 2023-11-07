@@ -16,8 +16,15 @@ const NavBlob = ({ loc = 'homeNav' }) => {
 				target: "#homeNav",
 				event: "click",
 				destination: ".dashbody",
-				component: "navBlob",
+				component: "dashboardHome",
 				params: {loc: "homeNav"}
+			},
+			{
+				target: "#settingsNav",
+				event: "click",
+				destination: ".dashbody",
+				component: "navBlob",
+				params: {loc: "settingsNav"}
 			}
 		]);
 

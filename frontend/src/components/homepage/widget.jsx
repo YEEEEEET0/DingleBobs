@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Card } from 'react-bootstrap';
-import ReactDOM from 'react-dom';
+import $ from 'jquery';
 import Draggable from 'react-draggable';
-let listening = [];
 
 
 
@@ -17,13 +16,14 @@ const Widget = (props) => {
      * @param {HTMLElement} ref 
      */
     const handleRef = (ref) => {
-        if (dropdown && ref && !listening.includes(`${ref.children[0].textContent}-dropdown`)) {
-            listening.push(`${ref.children[0].textContent}-dropdown`);
+
+        if (dropdown && ref) {
 
             ref.addEventListener('click', (e) => {
                 dropdown.children[0].children[0].children[0].textContent = ref.children[0].textContent;
                 dropdown.classList.toggle("card-dropdown-active");
             }, true);
+            
         }
     };
 

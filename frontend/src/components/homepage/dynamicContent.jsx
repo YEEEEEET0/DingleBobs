@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 export const DynamicContentOrders = ({ parentRef }) => {
-    const [orders, setOrders] = useState([]);
+    const [orders, setOrders] = useState({});
     const [error, setError] = useState(null);
     const [current, setCurrent] = useState([]);
 
@@ -19,7 +19,6 @@ export const DynamicContentOrders = ({ parentRef }) => {
                     setError('No access');
                 } else {
                     const data = await response.json();
-                    console.log(data);
                     setOrders(data);
                 }
             } catch (error) {
@@ -31,22 +30,27 @@ export const DynamicContentOrders = ({ parentRef }) => {
     }, []);
 
     useEffect(() => {
-        /**
-         * @type {HTMLElement}
-         */
-        const dropDown = parentRef.current;
-        const dropTitle = dropDown.children[0].children[0].children[0];
+        if (parentRef.current && Object.keys(orders).length > 0) {
+            const dropDown = parentRef.current;
+            const dropTitle = dropDown.children[0].children[0].children[0];
 
-        const titleObserver = new MutationObserver(async (e) => {
-            if (e[0].addedNodes[0].nodeName == "#text") {
-                const establishmentName = e[0].addedNodes[0].data;
-                setCurrent(orders[establishmentName]);
-            }
-        });
+            const titleObserver = new MutationObserver((mutationsList) => {
+                mutationsList.forEach((mutation) => {
+                    if (mutation.type === "childList" && mutation.addedNodes.length > 0 && mutation.addedNodes[0].nodeName === "#text") {
+                        const establishmentName = mutation.addedNodes[0].textContent.trim();
+                        const establishmentOrders = orders[establishmentName];
+                        setCurrent(establishmentOrders || []);
+                    }
+                });
+            });
 
-        titleObserver.observe(dropTitle, { attributes: true, childList: true, subtree: true });
-    }, [orders]);
+            titleObserver.observe(dropTitle, { childList: true, subtree: true });
 
+            return () => {
+                titleObserver.disconnect();
+            };
+        }
+    }, [orders, parentRef]);
 
     return (
         <div>
