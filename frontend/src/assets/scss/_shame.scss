@@ -69,9 +69,21 @@ body {
   margin-top: 50px;
 }
 
+.blob-item svg:hover {
+  opacity: 0.3;
+}
+
 .nav-blob:hover .blob-item {
-  opacity: 1;
+  opacity: 0.5;
   margin-top: 0px;
+}
+
+.blob-item svg {
+  fill: white !important;
+}
+
+.nav-blob:hover .blob-item.current {
+  opacity: 1;
 }
 
 .nav-blob:hover #defaultnav {
@@ -307,15 +319,17 @@ body {
 
 }
 
+.react-draggable div:nth-child(1) {
+  background-color: #121212;
+}
+
 .nav-blob {
     #defaultnav{
     fill: white !important;
   }
 }
 
-svg#Capa_1{
-  fill:#121212;
-}
+
 
 
 
