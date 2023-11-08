@@ -52,11 +52,11 @@ export class TransitionManager {
         const eventData = { callee: other };
 
         // Attaching the event listener to the specified target element
-        if (selector) {
+        if (selector)
             $(target).on(event, selector, eventData, this.handleTransition);
-        } else {
+        else
             $(target).on(event, eventData, this.handleTransition);
-        }
+
     }
 
     // Initializing event listeners based on the provided event conditions
@@ -66,11 +66,11 @@ export class TransitionManager {
             const eventData = { callee: other };
 
             // Attaching the event listener to the specified target element
-            if (selector) {
+            if (selector)
                 $(target).on(event, selector, eventData, this.handleTransition);
-            } else {
+            else
                 $(target).on(event, eventData, this.handleTransition);
-            }
+
         });
     }
 

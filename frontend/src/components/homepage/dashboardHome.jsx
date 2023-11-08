@@ -12,23 +12,19 @@ const DashboardHome = () => {
 
     useEffect(() => {
         const fetchOrders = async () => {
-            try {
-                const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
-                const response = await fetch('http://localhost:3000/food/restaurants/orders', {
-                    headers: {
-                        "Authorization": token
-                    }
-                });
+            const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
 
-                if (response.status === 403) {
-                    setError('No access');
-                } else {
-                    const data = await response.json();
-                    setOrders(data);
-                }
-            } catch (error) {
-                console.error('Error fetching orders:', error);
-            }
+            fetch('http://localhost:3000/food/restaurants/orders', { headers: { "Authorization": token } })
+                .then(response => {
+                    if (response.status === 403) setError('No access');
+                    else return response.json();
+                })
+                .then(data => {
+                    if (data) setOrders(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching orders:', error);
+                });
         };
         fetchOrders();
     }, []);
