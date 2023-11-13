@@ -42,7 +42,7 @@ const NavBlob = ({ loc = 'homeNav' }) => {
 			C351.868,112.166,352.461,116.026,350.814,119.183z"/></g></g>
 			</svg>
 
-			<a href="#" id="homeNav" className="blob-item"> {/* Home */}
+			<a id="homeNav" className="blob-item"> {/* Home */}
 				<svg fill="white" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns: xlink="http://www.w3.org/1999/xlink"
 					viewBox="0 0 495.398 495.398"
 					xml: space="preserve">
@@ -62,7 +62,7 @@ const NavBlob = ({ loc = 'homeNav' }) => {
 				</svg>
 			</a>
 
-			<a href="#" id='listNav' className="blob-item"> {/* List */}
+			<a id='listNav' className="blob-item"> {/* List */}
 				<svg xmlns="http://www.w3.org/2000/svg" xmlns: xlink="http://www.w3.org/1999/xlink" fill="white" version="1.1" id="Capa_1" viewBox="0 0 487.3 487.3" xml: space="preserve">
 					<g>
 						<g>
@@ -72,7 +72,7 @@ const NavBlob = ({ loc = 'homeNav' }) => {
 				</svg>
 			</a>
 
-			<a href="#" id='settingsNav' className="blob-item"> {/* Settings */}
+			<a id='settingsNav' className="blob-item"> {/* Settings */}
 				<svg version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns: xlink="http://www.w3.org/1999/xlink"
 					viewBox="0 0 512 512"  xml: space="preserve">
 					<g>

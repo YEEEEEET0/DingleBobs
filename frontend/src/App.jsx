@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
 import Slides from './components/homepage/slides';
 import Navbar from './components/homepage/navbar';
@@ -25,7 +25,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="dashboard" element={<DashboardHome />} />
+        <Route path="/dashboard" element={<DashboardHome />} />
         <Route path="restaurants/:name" element={<RestaurantDetail />} />
       </Routes>
     </Router>

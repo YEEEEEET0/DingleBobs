@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Nav from 'react-bootstrap/Nav';
+import { Link } from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import LoginModal from './loginModal'; // Make sure the path to LoginModal is correct
@@ -20,7 +21,7 @@ const CustomNavbar = ({ hideTitle }) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-          {title ? <Nav.Link href="/dashboard">Dashboard</Nav.Link> : null}
+            {title ? <Link to="/dashboard" className="nav-link">Dashboard</Link> : null}
           </Nav>
           <LoginModal />
         </Navbar.Collapse>
