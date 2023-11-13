@@ -4,7 +4,6 @@ import NavBlob from './navBlob';
 const DashboardOrders = () => {
     const [orders, setOrders] = useState([]);
     const [error, setError] = useState(null);
-    const order_dropdownRef = useRef(null);
 
 
     useEffect(() => {
