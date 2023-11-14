@@ -76,30 +76,26 @@ function LoginModal() {
     const password = document.getElementById('loginPassword').value;
 
     if (!email || !password) {
-      setError('Please provide both email and password.'); // Set error message
+      setError('Please provide both email and password.');
       return;
     }
 
     const result = await login(email, password);
 
     if (result.authToken) {
-      console.log('Login successful');
-      const date = new Date();
-      date.setTime(date.getTime() + (5 * 24 * 60 * 60 * 1000)); // Expires in 5 days
-      const expires = "expires=" + date.toUTCString();
-      const cookie = `token=${result.authToken};` + expires + ";path=/";
-      document.cookie = cookie;
+      setCookie(result.authToken);
       handleClose();
-      /**
-      * @type {HTMLElement}
-      */
-      const ele = ref.current;
-      ele.innerHTML = "logged in";
+      ref.current.innerHTML = "logged in";
     } else {
-      setError('Login failed'); // Set error message for login failure
+      setError('Login failed');
     }
   };
 
+  const setCookie = (token) => {
+    const expirationDate = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000); // Expires in 5 days
+    document.cookie = `token=${token}; expires=${expirationDate.toUTCString()}; path=/`;
+  };
+  
   return (
     <div ref={ref}>
       <Button variant="outline-light" onClick={handleShow}>
