@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import navSvg from '../../assets/images/navico.svg'
 import { TransitionManager } from '../../transitionManager';
 
 const NavBlob = ({ loc = 'homeNav' }) => {
@@ -9,7 +8,7 @@ const NavBlob = ({ loc = 'homeNav' }) => {
 				target: "#listNav",
 				event: "click",
 				destination: ".dashbody",
-				component: "navBlob",
+				component: "dashboardOrders",
 				params: {loc: "listNav"}
 			},
 			{

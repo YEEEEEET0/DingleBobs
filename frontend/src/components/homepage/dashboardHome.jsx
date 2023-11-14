@@ -32,7 +32,7 @@ const DashboardHome = () => {
 
     return (
         <div className='dashbody'>
-            <NavBlob />
+            <NavBlob loc='homeNav' />
             <Widget titlename="Orders" id="orders-card">
                 <div ref={order_dropdownRef} className='card-dropdown' id="orders-card-dropdown">
                     <Card style={{ width: '18rem', userSelect: "none" }}>

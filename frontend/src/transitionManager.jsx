@@ -11,7 +11,7 @@ export class TransitionManager {
         this.eventConditions = eventConditions;
         // Initializing event listeners and handling the initial load
         this.initializeEventListeners();
-        this.handleInitialLoad();
+        window.onload = () => this.handleInitialLoad();
     }
 
     // Handling the transition between components
@@ -44,6 +44,8 @@ export class TransitionManager {
         $(destination).fadeOut(400, () => {
             ReactDOM.render(<SuspendedComp />, $(destination)[0], () => $(destination).fadeIn(400));
         });
+
+        localStorage.setItem('currentComp', JSON.stringify({ component, destination }));
     }
 
     // Creating a transition based on the provided event object
@@ -76,8 +78,40 @@ export class TransitionManager {
 
     // Handling the initial load based on the URL parameters
     handleInitialLoad() {
-        if (this.urlParams.has('loc')) {
-            // To-Do: Add logic for handling initial load based on the URL parameters
+
+        //TO-DO: FIX THE STYLE DUPLICATION / STYLES BEING MERGED BETWEEN TRANSITIONS
+
+        /*
+        const storedComponent = localStorage.getItem('currentComp');
+
+        if (storedComponent) {
+            const { component, destination } = JSON.parse(storedComponent);
+
+            // Dynamically import the stored component
+            const ImportedComp = React.lazy(() => import(`./components/homepage/${component}.jsx`));
+
+            const LoadingComp = () => {
+                return (
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                );
+            };
+    
+            // Component displayed during the transition
+            const SuspendedComp = () => {
+                return (
+                    <Suspense fallback={<LoadingComp />}>
+                        <ImportedComp />
+                    </Suspense>
+                );
+            };
+
+            // Render the stored component
+            ReactDOM.render(<SuspendedComp />, $(destination)[0]);
         }
+        */
     }
 }

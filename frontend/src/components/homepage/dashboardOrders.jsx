@@ -28,7 +28,7 @@ const DashboardOrders = () => {
 
     return (
         <div className='dashbody'>
-            <NavBlob />
+            <NavBlob loc='listNav' />
 
         </div>
     );
