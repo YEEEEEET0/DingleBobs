@@ -32,7 +32,7 @@ if exist "compiled_frontend" (
         goto CHECK_COMPLETION
     )
 ) else (
-  
+    echo.
 )
 
 exit /b
