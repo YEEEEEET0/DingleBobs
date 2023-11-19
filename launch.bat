@@ -8,6 +8,7 @@ if exist "compiled_frontend" (
         echo Frontend build successful. Starting backend...
         cd ..
         node backend\index.js
+        pause
     ) else (
         echo Frontend build failed.
     )

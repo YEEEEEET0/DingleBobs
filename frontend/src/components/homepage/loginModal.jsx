@@ -6,7 +6,7 @@ import RegisterModal from './RegisterModal'; // Make sure the import path is cor
 import axios from 'axios';
 import { useRef } from 'react';
 
-function LoginModal() {
+function LoginModal(handleLogIn) {
   const [show, setShow] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -16,7 +16,11 @@ function LoginModal() {
   useEffect(() => {
     if (document.cookie) {
       const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
-      if (token) setLoggedIn(true)
+      if (token) {
+        ref.current.innerHTML = "";
+        setLoggedIn(true);
+        console.log(handleLogIn);
+      };
     }
   })
 
