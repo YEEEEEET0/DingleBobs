@@ -7,12 +7,18 @@ import LoginModal from './loginModal'; // Make sure the path to LoginModal is co
 
 const CustomNavbar = ({ hideTitle }) => {
   const [title, setTitle] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     if (hideTitle) {
       setTitle(false);
     }
   }, [hideTitle]);
+
+  const handleLogIn = () => {
+    setLoggedIn(true);
+    console.log("Logged In 50");
+  };
 
   return (
     <Navbar expand="lg" data-bs-theme="dark" fixed='top'>
@@ -23,7 +29,7 @@ const CustomNavbar = ({ hideTitle }) => {
           <Nav className="me-auto">
             {title ? <Link to="/dashboard" className="nav-link">Dashboard</Link> : null}
           </Nav>
-          <LoginModal />
+          <LoginModal handleLogIn={handleLogIn}/>
         </Navbar.Collapse>
       </Container>
     </Navbar>
