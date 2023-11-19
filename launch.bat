@@ -14,3 +14,5 @@ if exist "compiled_frontend" (
 ) else (
     echo The compiled_frontend folder does not exist.
 )
+
+pause
