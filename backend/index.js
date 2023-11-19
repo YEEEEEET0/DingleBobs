@@ -15,7 +15,8 @@ const corsOptions = {
   optionsSuccessStatus: 200, // might choke on 204 so default 200
 };
 
-app.use(cors(corsOptions));
+app.use('/assets', express.static('./compiled_frontend/assets'))
+//app.use(cors(corsOptions));
 
 // MongoDB Atlas connection URL
 const mongoURI =
@@ -41,3 +42,12 @@ app.use('/food', foodRoutes);
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+app.get("/", (req, res) => {
+  res.sendFile(`index.html`, {root: './compiled_frontend/'});
+})
+
+app.get("/dashboard", (req, res) => {
+  res.sendFile(`index.html`, {root: './compiled_frontend/'});
+})
+

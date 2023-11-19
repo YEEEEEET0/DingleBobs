@@ -129,7 +129,7 @@ body {
 }
 
 .card {
-  border: none !important;
+  border: solid 2px #343a40 !important;
 }
 
 .card-body {
@@ -149,6 +149,10 @@ body {
   align-items: flex-end;
   gap: 3%;
   justify-content: space-between;
+}
+
+.react-draggable.react-draggable-dragged {
+  outline: none !important;
 }
 
 .thumbnail {
@@ -324,7 +328,8 @@ body {
 
 }
 
-.react-draggable div:nth-child(1) {
+.react-draggable > div {
+  outline: none !important;
   background-color: #121212;
 }
 
@@ -333,11 +338,6 @@ body {
     fill: white !important;
   }
 }
-
-
-
-
-
 
 .clickable{
   cursor: pointer;
