@@ -3,7 +3,7 @@
 if exist "compiled_frontend" (
     echo The compiled_frontend folder exists.
     cd frontend
-    npm run build
+    call npm run watch:build
     if %errorlevel% equ 0 (
         echo Frontend build successful. Starting backend...
         cd ..

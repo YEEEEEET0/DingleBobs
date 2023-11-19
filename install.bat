@@ -1,23 +1,28 @@
 @echo off
 
-REM Function to echo colored text
-:colorEcho
-echo off
-<nul set /p ".=%~2"
-findstr /v $ "%~2" nul
-echo.
-
-if "%~1" neq "" exit /b %~1
-
-REM Echoing with colors
+REM Echoing with colors and background installations
 echo Installing backend packages...
-start "" cmd /c "cd ./backend & npm i"
-echo Installed backend packages
+cd /d "path_to_your_backend_folder"
+if exist "node_modules" (
+    echo Backend packages already installed.
+) else (
+    start /B npm i >nul 2>&1
+)
+
+echo Backend packages installation initiated.
 echo.
+
+REM Function for spinner animation (if needed)
 
 echo Installing frontend packages...
-start "" cmd /c "cd ./frontend & npm i"
-echo Installed frontend packages
+cd /d "path_to_your_frontend_folder"
+if exist "node_modules" (
+    echo Frontend packages already installed.
+) else (
+    start /B npm i >nul 2>&1
+)
+
+echo Frontend packages installation initiated.
 echo.
 
 pause
