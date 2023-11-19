@@ -11,22 +11,22 @@ class AccountController {
     }
 
     static async saneToken(token, reqip) {
-        if (!token || !reqip) 
+        if (!token || !reqip)
             return false;
-        
+
 
         const loginData = globalMongo.db("accounts").collection('login');
         const sessionData = await globalMongo.db("accounts").collection('sessions').findOne({ token });
 
         if (!sessionData)
             return false;
-    
+
         const isValidToken = await AccountController.isTokenValid(sessionData.token, sessionData.initializationVector, sessionData.authTag, loginData, reqip);
 
         return isValidToken;
     }
 
-   static async isTokenValid(token, initializationVector, authTag, loginData, reqip) {
+    static async isTokenValid(token, initializationVector, authTag, loginData, reqip) {
         const decipher = createDecipheriv('aes-256-gcm', ENCRYPTIONKEY, initializationVector);
         decipher.setAuthTag(Buffer.from(authTag, 'hex'));
         let decrypted = decipher.update(token, 'hex', 'utf-8');
@@ -40,7 +40,7 @@ class AccountController {
 
 
         //if (ip !== reqip)
-          //  return false;
+        //  return false;
 
 
         return true;
@@ -53,9 +53,9 @@ class AccountController {
 
         const sessionData = await this.mongoClient.db("accounts").collection('sessions').findOne({ token });
 
-        if (!sessionData) 
+        if (!sessionData)
             throw new Error("Internal server error, can't get collection");
-        
+
 
         const decipher = createDecipheriv('aes-256-gcm', ENCRYPTIONKEY, sessionData.initializationVector);
         decipher.setAuthTag(Buffer.from(sessionData.authTag, 'hex'));
@@ -79,9 +79,9 @@ class AccountController {
             const query = { $or: [{ username: newuser }, { email: newuser }] };
             const existingUser = await accountLogins.findOne(query, { projection });
 
-            if (existingUser) 
+            if (existingUser)
                 return { error: "Account with username or email already exists" };
-            
+
 
             return { available: true };
         } catch (err) {

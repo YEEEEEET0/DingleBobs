@@ -1,22 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const authRoutes = require('./routes/auth');
 const foodRoutes = require('./routes/restaurant');
 const loginRoutes = require('./routes/login');
-const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-const corsOptions = {
-  origin: 'http://localhost:5173', //frontend
-  optionsSuccessStatus: 200, // might choke on 204 so default 200
-};
 
 app.use('/assets', express.static('./compiled_frontend/assets'))
-//app.use(cors(corsOptions));
 
 // MongoDB Atlas connection URL
 const mongoURI =
