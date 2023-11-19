@@ -25,7 +25,7 @@ function LoginModal(handleLogIn) {
   })
 
   const handleClose = () => {
-    setShow(false);
+    setShow(false); 
     setError(''); // Clear the error message when closing the modal
   };
 

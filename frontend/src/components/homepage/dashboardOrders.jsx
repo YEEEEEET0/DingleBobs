@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import NavBlob from './navBlob';
-import { Dropdown, Modal, Button } from 'react-bootstrap';
+import { Dropdown, Modal, Button, Carousel } from 'react-bootstrap';
+
 
 const DashboardOrders = () => {
     const [restaurants, setRestaurants] = useState([]);
@@ -25,7 +26,7 @@ const DashboardOrders = () => {
     const handleDropdownChange = (restaurant) => {
         setSelectedRestaurant(restaurant);
     };
-
+ 
     const handleModifyItem = (item) => {
         setModifiedItem(item);
         setShowModal(true);
@@ -91,45 +92,32 @@ const DashboardOrders = () => {
                     </Dropdown.Menu>
                 </Dropdown>
 
-                {selectedRestaurant && (
-                    <div>
-                        <h2>{selectedRestaurant.name}</h2>
-                        <img
-                            src={selectedRestaurant.imageurl}
-                            alt={selectedRestaurant.name}
-                            className="img-fluid" // Bootstrap's responsive image class
-                            style={{ maxWidth: '100%', height: 'auto' }}
-                        />
-                        <p>Rating: {selectedRestaurant.rating}</p>
-
-                        <h3>Menu:</h3>
-                        <ul>
-                            {selectedRestaurant.dishes.map((dish, index) => (
-                                <li key={index}>
-                                    <h4>{dish.Name}</h4>
-                                    <p>Description: {dish.Description}</p>
-                                    <p>Price: {dish.Price}</p>
-                                    <p>Spice: {dish.Spice}</p>
-                                    <img
-                                        src={dish.imageurl}
-                                        alt={dish.Name}
-                                        className="img-fluid" // Bootstrap's responsive image class
-                                        style={{ maxWidth: '100%', height: 'auto' }}
-                                    />
-                                    <Button onClick={() => handleModifyItem(dish)}>Modify</Button>
-                                </li>
-                            ))}
-                        </ul>
-                        <Button onClick={handleAddNewItem}>Add New Item</Button>
-                    </div>
-                )}
-
-                {/* Modal for modifying or adding items */}
                 <Modal show={showModal} onHide={handleModalClose}>
-                    {/* Add your form or input fields for modifying or adding items */}
-                    {/* Use modifiedItem state to pre-fill form fields for modification */}
                     <Modal.Body>
-                        {/* Your form or input fields go here */}
+                        {/* Carousel to navigate through dishes */}
+                        <Carousel activeIndex={selectedDishIndex} onSelect={handleSelectDish}>
+                            {selectedRestaurant &&
+                                selectedRestaurant.dishes.map((dish, index) => (
+                                    <Carousel.Item key={index}>
+                                        <img
+                                            className="d-block w-100"
+                                            src={dish.imageurl}
+                                            alt={dish.Name}
+                                            style={{ maxHeight: '300px', objectFit: 'cover' }}
+                                        />
+                                        <Carousel.Caption>
+                                            <h3>{dish.Name}</h3>
+                                            {/* Add other dish details */}
+                                        </Carousel.Caption>
+                                    </Carousel.Item>
+                                ))}
+                        </Carousel>
+
+                        {/* Add your form or input fields for modifying or adding items */}
+                        {/* Use modifiedItem state to pre-fill form fields for modification */}
+                        <form>
+                            {/* Your form or input fields go here */}
+                        </form>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleModalClose}>
