@@ -7,7 +7,7 @@ if exist "compiled_frontend" (
     if %errorlevel% equ 0 (
         echo Frontend build successful. Starting backend...
         cd ..
-        start node backend\index.js
+        node backend\index.js
     ) else (
         echo Frontend build failed.
     )
