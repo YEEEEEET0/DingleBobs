@@ -2,7 +2,7 @@
 
 REM Echoing with colors and background installations
 echo Installing backend packages...
-cd /d "path_to_your_backend_folder"
+cd /d "./backend"
 if exist "node_modules" (
     echo Backend packages already installed.
 ) else (
@@ -15,7 +15,7 @@ echo.
 REM Function for spinner animation (if needed)
 
 echo Installing frontend packages...
-cd /d "path_to_your_frontend_folder"
+cd /d "./frontend"
 if exist "node_modules" (
     echo Frontend packages already installed.
 ) else (
