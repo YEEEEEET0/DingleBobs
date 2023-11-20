@@ -4,7 +4,7 @@ const AccountController = require('./Login');
 
 class CartController {
   constructor(conUrl) {
-    this.cartModel = new CartModel(new MongoClient(conUrl), "accounts");
+    this.cartModel = new CartModel(conUrl, "accounts");
   }
 
   async init() {
