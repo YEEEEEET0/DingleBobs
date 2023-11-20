@@ -40,7 +40,7 @@ router.post('/tokendata', async (req, res) => {
     const { token } = req.body;
 
     try {
-        const tokenData = await accountController.getTokenData(token);
+        const tokenData = await AccountController.getTokenData(token);
 
         if (tokenData) {
             res.status(200).json(tokenData);
