@@ -8,7 +8,7 @@ cartController.init();
 // GET user cart by token
 router.get('/user', async (req, res) => {
   try {
-    const { token } = req.headers.authorization;
+    const token = req.headers.authorization;
     const userCart = await cartController.getUserCartByToken(token);
     if (userCart.error) {
       return res.status(400).json({ error: userCart.error });
@@ -23,7 +23,7 @@ router.get('/user', async (req, res) => {
 // PUT update user cart by token
 router.put('/user', async (req, res) => {
   try {
-    const { token } = req.headers.authorization;
+    const token = req.headers.authorization;
     const updatedCart = req.body.cartData; // Assuming cartData is sent in the request body
     const result = await cartController.updateUserCartByToken(token, updatedCart);
     if (result.error) {
@@ -38,7 +38,7 @@ router.put('/user', async (req, res) => {
 // POST add dish to user cart by token
 router.post('/user/dish', async (req, res) => {
   try {
-    const { token } = req.headers.authorization;
+    const token = req.headers.authorization;
     const newDish = req.body.dish; // Assuming dish data is sent in the request body
     const userCart = await cartController.insertDishToCartByToken(token, newDish);
     if (userCart.error) {
@@ -53,7 +53,7 @@ router.post('/user/dish', async (req, res) => {
 // DELETE remove dish from user cart by token and dish ID
 router.delete('/user/dish/:dishId', async (req, res) => {
   try {
-    const { token } = req.headers.authorization;
+    const token = req.headers.authorization;
     const { dishId } = req.params;
     const userCart = await cartController.removeDishFromCartByToken(token, dishId);
     if (userCart.error) {

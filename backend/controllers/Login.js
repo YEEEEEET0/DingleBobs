@@ -55,7 +55,7 @@ class AccountController {
 
         if (!sessionData)
             throw new Error("Internal server error, can't get collection");
-
+        
 
         const decipher = createDecipheriv('aes-256-gcm', ENCRYPTIONKEY, sessionData.initializationVector);
         decipher.setAuthTag(Buffer.from(sessionData.authTag, 'hex'));
