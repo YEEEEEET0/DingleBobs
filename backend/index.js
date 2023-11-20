@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const foodRoutes = require('./routes/restaurant');
 const loginRoutes = require('./routes/login');
+const cartRoutes = require('./routes/cart');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -28,7 +29,7 @@ mongoose
 // Routes
 app.use('/auth', loginRoutes);
 app.use('/food', foodRoutes);
-
+app.use('/cart', cartRoutes);
 
 
 // Start the server

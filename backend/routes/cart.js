@@ -6,7 +6,7 @@ const cartController = new CartController("mongodb+srv://ambit:f1jepKOsQbpv6tBv@
 cartController.init();
 
 // GET user cart by token
-router.get('/user/cart', async (req, res) => {
+router.get('/user', async (req, res) => {
   try {
     const { token } = req.headers.authorization;
     const userCart = await cartController.getUserCartByToken(token);
@@ -20,7 +20,7 @@ router.get('/user/cart', async (req, res) => {
 });
 
 // PUT update user cart by token
-router.put('/user/cart', async (req, res) => {
+router.put('/user', async (req, res) => {
   try {
     const { token } = req.headers.authorization;
     const updatedCart = req.body.cartData; // Assuming cartData is sent in the request body
@@ -35,7 +35,7 @@ router.put('/user/cart', async (req, res) => {
 });
 
 // POST add dish to user cart by token
-router.post('/user/cart/dish', async (req, res) => {
+router.post('/user/dish', async (req, res) => {
   try {
     const { token } = req.headers.authorization;
     const newDish = req.body.dish; // Assuming dish data is sent in the request body
@@ -50,7 +50,7 @@ router.post('/user/cart/dish', async (req, res) => {
 });
 
 // DELETE remove dish from user cart by token and dish ID
-router.delete('/user/cart/dish/:dishId', async (req, res) => {
+router.delete('/user/dish/:dishId', async (req, res) => {
   try {
     const { token } = req.headers.authorization;
     const { dishId } = req.params;
