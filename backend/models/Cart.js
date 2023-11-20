@@ -4,7 +4,7 @@ class CartModel {
   constructor(url, dbName) {
     this.url = url;
     this.dbName = dbName;
-    this.client = new MongoClient(url, { useUnifiedTopology: true });
+    this.client = new MongoClient(url);
     this.db = null;
   }
 
@@ -12,7 +12,6 @@ class CartModel {
     try {
       await this.client.connect();
       this.db = this.client.db(this.dbName);
-      console.log('Connected to MongoDB');
     } catch (error) {
       console.error('Error connecting to MongoDB:', error);
     }
