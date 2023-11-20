@@ -16,6 +16,7 @@ router.get('/user', async (req, res) => {
     res.json(userCart);
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
+    console.log(error);
   }
 });
 

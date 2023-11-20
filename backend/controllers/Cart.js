@@ -12,7 +12,8 @@ class CartController {
   }
 
   async getUserCartByToken(token) {
-    const username = await AccountController.getTokenData(token)?.username;
+    const username = (await AccountController.getTokenData(token)).username;
+    console.log(username);
     return username ? this.cartModel.getUserCartByUsername(username) : { error: 'Invalid token' };
   }
 
