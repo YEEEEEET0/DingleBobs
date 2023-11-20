@@ -46,12 +46,12 @@ class AccountController {
         return true;
     }
 
-    async getTokenData(token) {
+     static async getTokenData(token) {
         if (!token) {
             return null;
         }
 
-        const sessionData = await this.mongoClient.db("accounts").collection('sessions').findOne({ token });
+        const sessionData = await globalMongo.db("accounts").collection('sessions').findOne({ token });
 
         if (!sessionData)
             throw new Error("Internal server error, can't get collection");
