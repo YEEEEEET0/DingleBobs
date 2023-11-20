@@ -1,33 +1,25 @@
 @echo off
 
-REM Function to echo colored text
-:colorEcho
-echo off
-<nul set /p ".=%~2"
-findstr /v $ "%~2" nul
-echo.
-if "%~1" neq "" exit /b %~1
-
 REM Function to install packages and show output
 :installPackages
-cd /d "%~1"
-if exist "node_modules" (
-    echo %2 packages already installed.
+cd /d "%~dp0%~1"
+set "currentDir=%cd%"
+if exist node_modules (
+    echo %2 packages already installed in directory: "%currentDir%".
 ) else (
-    echo Installing %2 packages...
-    npm i
-    if errorlevel 1 (
-        echo Failed to install %2 packages.
+    echo Installing %2 packages in directory: "%currentDir%"...
+    npm i >nul 2>&1
+    if %errorlevel% neq 0 (
+        echo Failed to install %2 packages in directory: "%currentDir%".
     ) else (
-        echo %2 packages installed successfully.
+        echo %2 packages installed successfully in directory: "%currentDir%".
     )
 )
-echo %2 packages installation initiated.
 echo.
 
-REM Echoing with colors and background installations
-call :installPackages ".\backend" Backend
-call :installPackages ".\frontend" Frontend
+REM Install packages for backend and frontend
+call :installPackages "backend" Backend
+call :installPackages "frontend" Frontend
 
 pause
 exit
