@@ -6,7 +6,7 @@ import RegisterModal from './RegisterModal'; // Make sure the import path is cor
 import axios from 'axios';
 import { useRef } from 'react';
 
-function LoginModal(handleLogIn) {
+function LoginModal(params) {
   const [show, setShow] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -19,7 +19,7 @@ function LoginModal(handleLogIn) {
       if (token) {
         ref.current.innerHTML = "";
         setLoggedIn(true);
-        console.log(handleLogIn);
+        params.handleLogIn();
       };
     }
   })

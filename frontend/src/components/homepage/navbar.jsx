@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import LoginModal from './loginModal'; // Make sure the path to LoginModal is correct
+import CartListButton from './cartListButton';
 
 const CustomNavbar = ({ hideTitle }) => {
   const [title, setTitle] = useState(true);
@@ -29,6 +30,7 @@ const CustomNavbar = ({ hideTitle }) => {
           <Nav className="me-auto">
             {title ? <Link to="/dashboard" className="nav-link">Dashboard</Link> : null}
           </Nav>
+            {loggedIn ? <CartListButton/> : ""}
           <LoginModal handleLogIn={handleLogIn}/>
         </Navbar.Collapse>
       </Container>
