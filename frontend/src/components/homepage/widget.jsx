@@ -32,9 +32,9 @@ const Widget = (props) => {
             return React.cloneElement(child, { ref: handleRef });
 
         return child;
-    });
+    }); 
 
-    return (
+    return ( 
         <Draggable defaultPosition={localStorage.getItem(`defaultPosition${props.id}`) ? JSON.parse(localStorage.getItem(`defaultPosition${props.id}`)) : { x: 0, y: 0 }} onStop={posSave}>
             <Card style={{ width: '18rem', userSelect: "none" }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px' }}>

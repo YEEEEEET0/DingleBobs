@@ -137,9 +137,8 @@ const DashboardOrders = () => {
     };
 
     const handleDropdownChange = (restaurant) => {
-        console.log('Selected restaurant:', restaurant); // Check selected restaurant
         setSelectedRestaurant(restaurant);
-        setShowModal(true); // Open the modal when a restaurant is selected
+        setShowModal(true);
     };
 
     const handleModalClose = () => {
@@ -148,8 +147,8 @@ const DashboardOrders = () => {
     };
 
     const handleEditClick = (dish) => {
-        setEditedDish(dish);
-        setShowEditModal(true); // Show the edit modal
+        setShowEditModal(true);
+        setModifiedItem(dish);
     };
 
     return (
@@ -185,7 +184,6 @@ const DashboardOrders = () => {
                                         <h3>{dish.Name}</h3>
                                         <p>Description: {dish.Description}</p>
                                         <p>Price: {dish.Price}</p>
-                                        {/* Other details of the dish */}
                                         <Button variant="outline-secondary" onClick={() => handleEditClick(dish)}>
                                             <i className="bi bi-pencil"></i> Edit
                                         </Button>
@@ -197,8 +195,8 @@ const DashboardOrders = () => {
                         <p>No dishes available</p>
                     )}
 
-                   
-                   <EditModal show={showEditModal} handleClose={handleModalClose}></EditModal>
+
+                    <EditModal show={showEditModal} handleClose={handleModalClose} editedDish={modifiedItem}></EditModal>
                 </div>
             </div>
         </div>

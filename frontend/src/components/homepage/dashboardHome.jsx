@@ -53,10 +53,10 @@ const DashboardHome = () => {
                         <div className='orders-list' key={index}>
                             <span>{restaurantName}</span>
                             <span>{orders[restaurantName].length}</span>
-                        </div>
+                        </div> 
                     ))
-                )}
-            </Widget>
+                )} 
+            </Widget> 
 
             <Widget titlename="payments" id="payments-card">
 

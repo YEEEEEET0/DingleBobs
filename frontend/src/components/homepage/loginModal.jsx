@@ -23,7 +23,7 @@ function LoginModal(params) {
       };
     }
   })
-
+ 
   const handleClose = () => {
     setShow(false); 
     setError(''); // Clear the error message when closing the modal

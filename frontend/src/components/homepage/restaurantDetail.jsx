@@ -26,16 +26,16 @@ const RestaurantDetail = () => {
       }
     }
 
-    fetchRestaurantDetails();
+    fetchRestaurantDetails(); 
   }, [name]);
 
   if (!restaurant) {
     return <div>Loading...</div>;
-  }
+  } 
 
   return (
     <div className='all-info'>
-        <div className='thumbnail'>
+        <div className='thumbnail'> 
             <h2>{restaurant.name}</h2>
 
             <img src={restaurant.imageurl} alt={restaurant.name}/>
@@ -45,12 +45,12 @@ const RestaurantDetail = () => {
                 </svg></p>
         </div>
       
-      <RestaurantAbout/>
+      <RestaurantAbout/> 
 
       <div className='dishes-styling'>
       <DishesCards restaurantName={restaurant.name} />
       </div>
-
+ 
     </div>
   );
 };

@@ -28,4 +28,4 @@ const RestaurantAbout = () => {
   );
 }
 
-export default RestaurantAbout;
+export default RestaurantAbout;  

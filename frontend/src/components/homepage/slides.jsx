@@ -25,4 +25,4 @@ const CarouselComponent = ({ items }) => (
 
 const UncontrolledExample = () => <CarouselComponent items={carouselData} />;
 
-export default UncontrolledExample;
+export default UncontrolledExample;    

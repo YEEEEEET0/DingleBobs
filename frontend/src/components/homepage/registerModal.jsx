@@ -23,7 +23,7 @@ function RegisterModal({ showRegister, handleCloseRegister, handleShowLogin }) {
     const password = document.getElementById('registerPassword').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
   
-    // Regular expression for email validation
+    // Regular expression for email validation 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   
     if (!emailRegex.test(email)) {
@@ -39,7 +39,7 @@ function RegisterModal({ showRegister, handleCloseRegister, handleShowLogin }) {
       return;
     }
   
-    if (password === confirmPassword) {
+    if (password === confirmPassword) { 
       // Passwords match, proceed with registration
       setPasswordsMatch(true);
       setValidEmail(true);

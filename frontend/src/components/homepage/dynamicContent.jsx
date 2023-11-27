@@ -26,7 +26,7 @@ export const DynamicContentOrders = ({ parentRef }) => {
             }
         };
 
-        fetchData();
+        fetchData(); 
     }, []);
 
     useEffect(() => {

@@ -12,22 +12,22 @@ class CartController {
   }
 
   async getUserCartByToken(token) {
-    const username = (await AccountController.getTokenData(token)).username;
+    const username = (await AccountController.getTokenData(token))?.username;
     return username ? this.cartModel.getUserCartByUsername(username) : { error: 'Invalid token' };
   }
 
   async updateUserCartByToken(token, cartData) {
-    const username = (await AccountController.getTokenData(token)).username;
+    const username = (await AccountController.getTokenData(token))?.username;
     return username ? this.cartModel.updateUserCart(username, cartData) : { error: 'Invalid token' };
   }
 
   async insertDishToCartByToken(token, dish) {
-    const username = (await AccountController.getTokenData(token)).username;
+    const username = (await AccountController.getTokenData(token))?.username;
     return username ? this.cartModel.insertDishToCart(username, dish) : { error: 'Invalid token' };
   }
 
   async removeDishFromCartByToken(token, dishId) {
-    const username = (await AccountController.getTokenData(token)).username;
+    const username = (await AccountController.getTokenData(token))?.username;
     return username ? this.cartModel.removeDishFromCart(username, dishId) : { error: 'Invalid token' };
   }
 
