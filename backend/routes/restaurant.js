@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const RestaurantController = require('../controllers/Restaurant');
-const AccountController = require('../controllers/Login');
+const {AccountController} = require('../controllers/Login');
 const restaurantController = new RestaurantController('mongodb+srv://ambit:f1jepKOsQbpv6tBv@cluster0.uryu669.mongodb.net');
 // Initialize the controller
 restaurantController.init();
@@ -80,7 +80,7 @@ router.get('/restaurant/:restaurantName/dishes', async (req, res) => {
 
 router.get('/restaurants/orders', async (req, res) => {
   try {
-    const isSane = await AccountController.saneToken(req.headers.authorization, req.ip);
+    const isSane = await AccountController.sanityCheck(req.headers.authorization, req.ip);
     if (!isSane) return res.status(403).json({ message: 'Accesss denied' });
 
     const allOrders = await restaurantController.getAllOrders(); //getAllOrders

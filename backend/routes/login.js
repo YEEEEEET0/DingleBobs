@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
-const AccountController = require('../controllers/Login');
+const {AccountController} = require('../controllers/Login');
 const { MongoClient } = require('mongodb')
 
 router.use(bodyParser.json());

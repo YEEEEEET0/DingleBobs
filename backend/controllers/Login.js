@@ -1,156 +1,168 @@
-const { hashSync, compareSync, compare } = require('bcrypt');
-const ENCRYPTIONKEY = "C*F-JaNdRgUkXp2s58x/A?D(G+KbPeSh";
 const { createCipheriv, randomBytes, createDecipheriv } = require('crypto');
-let globalMongo = null;
+const { hashSync, compareSync } = require('bcrypt');
+let GLOCAL_MONGO = null;
+const ENCRYPTION_KEY = "C*F-JaNdRgUkXp2s58x/A?D(G+KbPeSh"; //breh
 
-class AccountController {
-    constructor(mongoClient, ENCRYPTIONKEY) {
-        this.mongoClient = mongoClient;
-        this.ENCRYPTIONKEY = ENCRYPTIONKEY;
-        globalMongo = mongoClient;
+class TokenManager {
+    constructor() {
     }
 
-    static async saneToken(token, reqip) {
-        if (!token || !reqip)
-            return false;
-
-
-        const loginData = globalMongo.db("accounts").collection('login');
-        const sessionData = await globalMongo.db("accounts").collection('sessions').findOne({ token });
-
-        if (!sessionData)
-            return false;
-
-        const isValidToken = await AccountController.isTokenValid(sessionData.token, sessionData.initializationVector, sessionData.authTag, loginData, reqip);
-
-        return isValidToken;
-    }
-
-    static async isTokenValid(token, initializationVector, authTag, loginData, reqip) {
-        const decipher = createDecipheriv('aes-256-gcm', ENCRYPTIONKEY, initializationVector);
+    static async isTokenValid(token, initializationVector, authTag, loginData, hashedPass, reqip) {
+        const decipher = createDecipheriv('aes-256-gcm', ENCRYPTION_KEY, initializationVector);
         decipher.setAuthTag(Buffer.from(authTag, 'hex'));
         let decrypted = decipher.update(token, 'hex', 'utf-8');
         decrypted += decipher.final('utf-8');
 
-        const [username, hashedpass, ip] = decrypted.split('>');
+        const [username, storedHashedPass, ip] = decrypted.split('>');
         const userAuth = await loginData.findOne({ username });
 
-        if (!userAuth || hashedpass !== userAuth.hashedPassword)
-            return false;
-
-
-        //if (ip !== reqip)
-        //  return false;
-
-
-        return true;
+        return userAuth && hashedPass === storedHashedPass// && (ip === reqip);
     }
 
-     static async getTokenData(token) {
-        if (!token) {
-            return null;
-        }
+    static async createToken(username, hashedPassword, ip) {
+        const initializationVector = randomBytes(32).toString('hex');
+        const cipher = createCipheriv("aes-256-gcm", ENCRYPTION_KEY, initializationVector);
+        const encryptedToken = Buffer.concat([cipher.update(`${username}>${hashedPassword}>${ip}`, 'utf8'), cipher.final()]);
+        const authToken = encryptedToken.toString('hex');
+        const creationDate = new Date().toLocaleDateString("en-GB");
 
-        const sessionData = await globalMongo.db("accounts").collection('sessions').findOne({ token });
+        return { token: authToken, initializationVector, creationDate, authTag: cipher.getAuthTag().toString("hex") };
+    }
 
-        if (!sessionData)
-            throw new Error("Internal server error, can't get collection");
-        
+    static async getTokenData(token) {
+        if (!token || !GLOCAL_MONGO) return "Token or database not available";
 
-        const decipher = createDecipheriv('aes-256-gcm', ENCRYPTIONKEY, sessionData.initializationVector);
-        decipher.setAuthTag(Buffer.from(sessionData.authTag, 'hex'));
-        let decrypted = decipher.update(sessionData.token, 'hex', 'utf-8');
-        decrypted += decipher.final('utf-8');
+        return GLOCAL_MONGO.db("accounts").collection('sessions').findOne({ token })
+            .then(sessionData => {
+                if (!sessionData) return "Session data not found for the token";
 
-        const [username, hashedpass, ip] = decrypted.split('>');
+                const { initializationVector, authTag, token: encryptedToken } = sessionData;
+                const decipher = createDecipheriv('aes-256-gcm', ENCRYPTION_KEY, initializationVector);
+                decipher.setAuthTag(Buffer.from(authTag, 'hex'));
 
-        return {
-            username,
-            hashedpass,
-            ip
-        };
+                const decrypted = decipher.update(encryptedToken, 'hex', 'utf-8') + decipher.final('utf-8');
+                const [username, hashedpass, ip] = decrypted.split('>');
+
+                return { username, hashedpass, ip };
+            })
+            .catch(error => {
+                return "Error getting token data: " + error.message;
+            });
+    }
+
+    static async getTokenDocument(token) {
+        if (!token || !GLOCAL_MONGO) return "Token or database not available";
+
+        return TokenManager.getTokenData(token)
+            .then(({ username }) => {
+                if (!username) return "Username not found for the token";
+
+                return GLOCAL_MONGO
+                    .db("accounts")
+                    .collection('login')
+                    .findOne({ username });
+            })
+            .then(userDocument => {
+                return userDocument || "User document not found";
+            })
+            .catch(error => {
+                return "Error getting token document: " + error.message;
+            });
+    }
+}
+
+class AccountController {
+    constructor(mongoClient) {
+        this.mongoClient = mongoClient;
+        GLOCAL_MONGO = mongoClient;
     }
 
     async accountExists(newuser) {
-        try {
-            const accountLogins = this.mongoClient.db("accounts").collection('login');
+        const accountLogins = this.mongoClient.db("accounts").collection('login');
+        const projection = { username: 1, email: 1, _id: 0 };
+        const query = { $or: [{ username: newuser }, { email: newuser }] };
 
-            const projection = { username: 1, email: 1, _id: 0 };
-            const query = { $or: [{ username: newuser }, { email: newuser }] };
-            const existingUser = await accountLogins.findOne(query, { projection });
-
-            if (existingUser)
-                return { error: "Account with username or email already exists" };
-
-
-            return { available: true };
-        } catch (err) {
-            console.error(err);
-            return { error: "Internal server error" };
-        }
+        return accountLogins.findOne(query, { projection })
+            .then(existingUser => existingUser ? { error: "Account with username or email already exists" } : { available: true })
+            .catch(err => {
+                console.error(err);
+                return { error: "Internal server error" };
+            });
     }
 
     async createAccount(username, password, ip) {
-        try {
-            const hashedPassword = await hashSync(password, 10);
-            const accountLogins = await this.mongoClient.db("accounts").collection('login');
+        const hashedPassword = await hashSync(password, 10);
+        const accountLogins = this.mongoClient.db("accounts").collection('login');
 
-            const existingUser = await accountLogins.findOne({ username });
-            if (existingUser) return { msg: "Account with username already exists" };
+        return accountLogins.findOne({ username })
+            .then(existingUser => {
+                if (existingUser) return { msg: "Account with username already exists" };
 
-            const result = await accountLogins.insertOne({ username, hashedPassword, ip: `${ip}` });
-            if (result.insertedId) return { msg: "Account has been created" }
-
-            throw new Error('Internal server error: could not create account');
-        } catch (err) {
-            console.error(err);
-            return { msg: "Internal server error" };
-        }
+                return accountLogins.insertOne({ username, hashedPassword, ip: `${ip}` })
+                    .then(result => result.insertedId ? { msg: "Account has been created" } : { error: 'Internal server error: could not create account' });
+            })
+            .catch(err => {
+                console.error(err);
+                return { msg: "Internal server error" };
+            });
     }
 
     async login(useroremail, password) {
         const accountData = await this.mongoClient.db("accounts").collection('login').findOne({ username: useroremail });
         const sessionCol = this.mongoClient.db("accounts").collection('sessions');
 
-        if (!accountData)
+        if (!accountData) return { msg: "User not found" };
+
+        const { username, hashedPassword, ip } = accountData;
+        const match = await compareSync(password, hashedPassword);
+
+        if (match) {
+
+
+            return sessionCol.insertOne({ token: authToken, initializationVector, creationDate, authTag: cipher.getAuthTag().toString("hex") })
+                .then(() => ({ msg: "Login successful", authToken }))
+                .catch(err => {
+                    console.error(err);
+                    return { msg: "Internal server error" };
+                });
+        } else {
             return { msg: "User not found" };
-
-
-        try {
-            const { username, hashedPassword, ip } = accountData;
-            const match = await compareSync(password, hashedPassword);
-
-            if (match) {
-                const initializationVector = randomBytes(32).toString('hex');
-                const cipher = createCipheriv("aes-256-gcm", ENCRYPTIONKEY, initializationVector);
-                const encryptedToken = Buffer.concat([cipher.update(`${username}>${hashedPassword}>${ip}`, 'utf8'), cipher.final()]);
-                const authToken = encryptedToken.toString('hex');
-                const creationDate = new Date().toLocaleDateString("en-GB");
-
-                await sessionCol.insertOne({ token: authToken, initializationVector, creationDate, authTag: cipher.getAuthTag().toString("hex") });
-
-                return { msg: "Login successful", authToken };
-            } else {
-                return { msg: "User not found" };
-            }
-        } catch (err) {
-            console.error(err);
-            return { msg: "Internal server error" };
         }
     }
 
-    async sanityCheck(token, reqip) {
-        try {
-            const tokenIsValid = await AccountController.saneToken(token, reqip);
-            return tokenIsValid ? { msg: "authentication token sanity check succeeded" } : { msg: "authentication token sanity check failed" };
-        } catch (err) {
-            return { error: err.message };
-        }
+    static async sanityCheck(token, reqip) {
+        const sessionCol = GLOCAL_MONGO.db("accounts").collection('sessions');
+        const loginData = GLOCAL_MONGO.db("accounts").collection('login');
+    
+        return sessionCol.findOne({ token })
+            .then(sessionData => {
+                if (!sessionData) return { msg: "Session data not found" };
+    
+                const { token: authToken, initializationVector, authTag } = sessionData;
+                return TokenManager.getTokenData(token)
+                    .then(({ username, hashedPassword }) => TokenManager.isTokenValid(authToken, initializationVector, authTag, loginData, hashedPassword, reqip))
+                    .then(tokenIsValid => tokenIsValid ? { msg: "Authentication token sanity check succeeded" } : { msg: "Authentication token sanity check failed" })
+                    .catch(err => {
+                        console.error(err);
+                        return { error: "Internal server error" };
+                    });
+            })
+            .catch(err => {
+                console.error(err);
+                return { error: "Internal server error" };
+            });
     }
 
     async close() {
-        this.mongoClient.close();
+        try {
+            this.mongoClient.close();
+            GLOCAL_MONGO = null;
+            return { msg: "Connection closed successfully" };
+        } catch (err) {
+            console.error(err);
+            return { error: "Internal server error" };
+        }
     }
 }
 
-module.exports = AccountController;
+module.exports = { AccountController, TokenManager };

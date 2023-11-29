@@ -28,7 +28,7 @@ const CustomNavbar = ({ hideTitle }) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            {title ? <Link to="/dashboard" className="nav-link">Dashboard</Link> : null}
+            {title ? <a href="/dashboard" className="nav-link">Dashboard</a> : null}
           </Nav>
             {loggedIn ? <CartListButton/> : ""}
           <LoginModal handleLogIn={handleLogIn}/>

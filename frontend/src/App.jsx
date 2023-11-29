@@ -1,4 +1,4 @@
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
 import Slides from './components/homepage/slides';
 import Navbar from './components/homepage/navbar';
